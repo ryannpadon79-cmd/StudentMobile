@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Registration</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="mobile-dashboard">
+        <div class="login-card">
+            <div class="logo-wrapper">
+                <img src="images/logo.png" alt="School Logo" class="school-logo" onerror="this.src='https://via.placeholder.com/90/003D7A/FFFFFF?text=NDMC'">
+            </div>
+            <h1 class="main-title">Admin Registration</h1>
+            <p class="sub-title">Create an administrator account</p>
+
+            <form onsubmit="handleAdminRegister(event)" autocomplete="off">
+                <div class="input-group">
+                    <label for="adminRegName">Full Name</label>
+                    <input type="text" id="adminRegName" placeholder="Enter full name" required autocomplete="off">
+                </div>
+                <div class="input-group">
+                    <label for="adminRegId">Admin ID</label>
+                    <input type="text" id="adminRegId" placeholder="Enter Admin ID" required autocomplete="off">
+                </div>
+                <div class="input-group">
+                    <label for="adminRegPass">Password</label>
+                    <input type="password" id="adminRegPass" placeholder="Enter password" required minlength="6" autocomplete="new-password">
+                </div>
+                <div class="input-group">
+                    <label for="adminRegConfirm">Confirm Password</label>
+                    <input type="password" id="adminRegConfirm" placeholder="Confirm password" required minlength="6" autocomplete="new-password">
+                </div>
+                <div class="input-group">
+                    <label for="adminRegPhoto">Profile Picture (From Device)</label>
+                    <input type="file" id="adminRegPhoto" accept="image/*" onchange="previewAdminImage(event)">
+                </div>
+                <button type="submit" class="btn-login">Register Admin</button>
+            </form>
+
+            <div class="links-container" style="margin-top: 15px;">
+                <a href="index.html" class="link-register" style="color: #0b4a83; text-decoration: none; font-weight: 600;">Back to Login</a>
+            </div>
+        </div>
+    </div>
+    <script src="js/admin-register.js"></script>
+</body>
+</html>

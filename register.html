@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - Student Registration</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <div class="mobile-dashboard">
+        <div class="login-card">
+            <div class="logo-wrapper">
+                <img src="images/logo.png" alt="School Logo" class="school-logo" onerror="this.src='https://via.placeholder.com/90/003D7A/FFFFFF?text=NDMC'">
+            </div>
+
+            <h1 class="main-title">Student Registration</h1>
+            <p class="sub-title">Create your account</p>
+
+            <form id="registerForm" onsubmit="handleRegister(event)" autocomplete="off">
+                
+                <div class="input-group">
+                    <label for="regId">Student ID</label>
+                    <input type="text" id="regId" placeholder="Enter ID (Numbers only)" required pattern="[0-9]+" inputmode="numeric" title="Numbers only allowed" autocomplete="off">
+                </div>
+
+                <div class="row-2col">
+                    <div class="input-group">
+                        <label for="regFname">First Name <span style="color:#94a3b8;">(Letters only)</span></label>
+                        <input type="text" id="regFname" placeholder="e.g. Roberto" required autocomplete="off">
+                    </div>
+                    <div class="input-group">
+                        <label for="regMname">Middle Name <span style="color:#94a3b8;">(Optional, Letters only)</span></label>
+                        <input type="text" id="regMname" placeholder="e.g. Suarez" autocomplete="off">
+                    </div>
+                </div>
+
+                <div class="row-2col">
+                    <div class="input-group">
+                        <label for="regLname">Last Name <span style="color:#94a3b8;">(Letters only)</span></label>
+                        <input type="text" id="regLname" placeholder="e.g. Alocada" required autocomplete="off">
+                    </div>
+                    <div class="input-group">
+                        <label for="regSuffix">Suffix</label>
+                        <select id="regSuffix">
+                            <option value="">None</option>
+                            <option value="Jr.">Jr.</option>
+                            <option value="Sr.">Sr.</option>
+                            <option value="I">I</option>
+                            <option value="II">II</option>
+                            <option value="III">III</option>
+                            <option value="IV">IV</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label for="regCourse">Course</label>
+                    <select id="regCourse" required>
+                        <option value="">Select Course</option>
+                        <option value="BSIT">BSIT</option>
+                        <option value="BSCS">BSCS</option>
+                        <option value="BSIS">BSIS</option>
+                        <option value="BSCpE">BSCpE</option>
+                    </select>
+                </div>
+
+                <div class="input-group">
+                    <label for="regYear">Year Level</label>
+                    <select id="regYear" required>
+                        <option value="">Select Year Level</option>
+                        <option value="1">1st Year</option>
+                        <option value="2">2nd Year</option>
+                        <option value="3">3rd Year</option>
+                        <option value="4">4th Year</option>
+                    </select>
+                </div>
+
+                <div class="input-group">
+                    <label for="regPass">Password</label>
+                    <input type="password" id="regPass" placeholder="Enter Password" required autocomplete="new-password">
+                </div>
+
+                <div class="input-group">
+                    <label for="regPhoto">Profile Picture (From Device)</label>
+                    <input type="file" id="regPhoto" accept="image/*" onchange="previewImage(event)">
+                </div>
+
+                <button type="submit" class="btn-login">Submit Registration</button>
+            </form>
+
+            <div class="links-container" style="margin-top: 15px;">
+                <a href="index.html" class="link-register" style="color: #0b4a83; text-decoration: none; font-weight: 600;">May Account na? Login Dito</a>
+            </div>
+        </div>
+    </div>
+
+<script src="js/register.js"></script>
+</body>
+</html>

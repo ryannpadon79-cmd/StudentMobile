@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Attendance Reports</title>
+    <link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+    <div class="phone-card">
+        <div class="admin-header">
+            <h3>Attendance Records</h3>
+            <a href="admin.html" class="back-link">← Back</a>
+        </div>
+
+<!-- Course Filter Buttons -->
+        <div class="course-tabs" id="reportTabs">
+            <button class="tab-btn report-tab active" data-course="ALL">ALL</button>
+            <button class="tab-btn report-tab" data-course="BSIT">BSIT</button>
+            <button class="tab-btn report-tab" data-course="BSCS">BSCS</button>
+            <button class="tab-btn report-tab" data-course="BSIS">BSIS</button>
+            <button class="tab-btn report-tab" data-course="BSCpE">BSCpE</button>
+        </div>
+
+        <div class="search-box">
+            <input type="text" id="reportSearch" placeholder="🔍 Search student by name or ID..." oninput="filterReportSearch()">
+        </div>
+
+        <div class="course-filter-summary" id="reportSummary">
+            Showing all courses
+        </div>
+
+        <div class="report-list" id="reportList">
+            <p class="empty-msg">Loading attendance records...</p>
+        </div>
+    </div>
+
+    <script src="js/admin.js"></script>
+</body>
+</html>

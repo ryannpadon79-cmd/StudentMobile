@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <!-- FontAwesome para sa mga icons sa menu -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+<div class="mobile-dashboard">
+
+    <!-- Admin Top Bar na may Hamburger Menu (Tatlong Guhit) -->
+    <div class="admin-header-bar">
+        <button class="hamburger-btn" id="hamburgerBtn" onclick="toggleSidebar()">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+        <div style="font-weight: 700; color: var(--primary); font-size: 15px;">Admin Dashboard</div>
+    </div>
+
+    <!-- Sidebar Overlay & Menu Drawer -->
+    <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
+    <div class="admin-sidebar" id="adminSidebar">
+        <div class="sidebar-header">
+            <h3>Admin Navigation</h3>
+            <button class="sidebar-close-btn" onclick="toggleSidebar()">&times;</button>
+        </div>
+        <ul class="sidebar-menu">
+            <li><a href="approval.html?type=student"><i class="fas fa-user-graduate"></i> Student Approval</a></li>
+            <li><a href="approval.html?type=admin"><i class="fas fa-user-shield"></i> Admin Approval</a></li>
+            <li><a href="courses.html"><i class="fas fa-book"></i> Course</a></li>
+            <li><a href="reports.html"><i class="fas fa-clipboard-list"></i> Attendance Log</a></li>
+            <li><a href="javascript:void(0)" class="logout-menu-item" onclick="logoutAdmin()"><i class="fas fa-sign-out-alt"></i> Log Out</a></li>
+        </ul>
+    </div>
+
+    <!-- Admin Profile / Status Card -->
+    <div class="admin-profile-card">
+        <img src="images/logo.png" alt="Admin" class="admin-profile-img" onerror="this.src='https://via.placeholder.com/70/0D3B66/FFFFFF?text=A'">
+        <div class="admin-profile-info">
+            <strong id="adminProfileName">SYSTEM ADMIN</strong>
+            <small id="adminProfileRole">Administrator</small>
+            <span class="admin-status-badge" id="adminProfileStatus">● Active</span>
+        </div>
+    </div>
+
+    <!-- Admin Statistics -->
+    <div class="m-stats-grid">
+        <div class="m-stat-card">
+            <h6>Total Students</h6>
+            <div class="val" id="statTotal">0</div>
+        </div>
+        <div class="m-stat-card pending">
+            <h6>Pending</h6>
+            <div class="val" id="statPending">0</div>
+        </div>
+        <div class="m-stat-card approved">
+            <h6>Approved</h6>
+            <div class="val" id="statApproved">0</div>
+        </div>
+        <div class="m-stat-card declined">
+            <h6>Disabled</h6>
+            <div class="val" id="statDisabled">0</div>
+        </div>
+    </div>
+
+    <!-- Combined Attendance Schedule + Event Announcement Settings -->
+    <div class="admin-schedule-card">
+        <h4 style="color:#0D3B66; margin-bottom:10px;">📢 Event & Attendance Schedule</h4>
+        <p style="font-size:12px; color:#64748b; margin-bottom:10px;">Set the event details and the time windows students must follow for Time In and Time Out. Students will see these on their dashboard.</p>
+
+        <!-- Event Announcement Settings -->
+        <div class="input-group">
+            <label for="eventNameField">Event Name</label>
+            <input type="text" id="eventNameField" placeholder="e.g. Morning Class, Foundation Day, etc.">
+        </div>
+        <div class="input-group">
+            <label for="eventDateField">Event Date</label>
+            <input type="date" id="eventDateField">
+        </div>
+
+        <!-- Start Time & End Time (12-Hour Dropdowns) -->
+        <div class="schedule-row">
+            <!-- Start Time -->
+            <div class="input-group">
+                <label>Start Time</label>
+                <div class="time-row">
+                    <select id="eventStartHour">
+                        <option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option><option value="11">11</option><option value="12">12</option>
+                    </select>
+                    <select id="eventStartMin">
+                        <option value="00">00</option><option value="05">05</option><option value="10">10</option><option value="15">15</option><option value="20">20</option><option value="25">25</option><option value="30">30</option><option value="35">35</option><option value="40">40</option><option value="45">45</option><option value="50">50</option><option value="55">55</option>
+                    </select>
+                    <select id="eventStartAmPm">
+                        <option value="AM">AM</option><option value="PM">PM</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- End Time -->
+            <div class="input-group">
+                <label>End Time</label>
+                <div class="time-row">
+                    <select id="eventEndHour">
+                        <option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option><option value="11">11</option><option value="12">12</option>
+                    </select>
+                    <select id="eventEndMin">
+                        <option value="00">00</option><option value="05">05</option><option value="10">10</option><option value="15">15</option><option value="20">20</option><option value="25">25</option><option value="30">30</option><option value="35">35</option><option value="40">40</option><option value="45">45</option><option value="50">50</option><option value="55">55</option>
+                    </select>
+                    <select id="eventEndAmPm">
+                        <option value="AM">AM</option><option value="PM">PM</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <button class="btn-save-schedule" onclick="saveEventAnnouncement()">Save Event</button>
+        <button class="btn-save-schedule btn-clear-event" onclick="clearEventAnnouncement()">✕ Clear / End Event</button>
+
+        <hr style="border:none; border-top:1px solid #e2e8f0; margin:18px 0;">
+
+        <h4 style="color:#0D3B66; margin-bottom:10px;">⏰ Attendance Schedule</h4>
+        <p style="font-size:12px; color:#64748b; margin-bottom:10px;">Set the time windows students must follow for Time In and Time Out.</p>
+        <div class="schedule-row">
+            <div class="input-group">
+                <label for="schedTimeInOpenHour">Time In Opens</label>
+                <div class="time-row">
+                    <select id="schedTimeInOpenHour">
+                        <option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option><option value="11">11</option><option value="12">12</option>
+                    </select>
+                    <select id="schedTimeInOpenMin">
+                        <option value="00">00</option><option value="05">05</option><option value="10">10</option><option value="15">15</option><option value="20">20</option><option value="25">25</option><option value="30">30</option><option value="35">35</option><option value="40">40</option><option value="45">45</option><option value="50">50</option><option value="55">55</option>
+                    </select>
+                    <select id="schedTimeInOpenAmPm">
+                        <option value="AM">AM</option><option value="PM">PM</option>
+                    </select>
+                </div>
+            </div>
+            <div class="input-group">
+                <label for="schedTimeInCloseHour">Time In Closes</label>
+                <div class="time-row">
+                    <select id="schedTimeInCloseHour">
+                        <option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option><option value="11">11</option><option value="12">12</option>
+                    </select>
+                    <select id="schedTimeInCloseMin">
+                        <option value="00">00</option><option value="05">05</option><option value="10">10</option><option value="15">15</option><option value="20">20</option><option value="25">25</option><option value="30">30</option><option value="35">35</option><option value="40">40</option><option value="45">45</option><option value="50">50</option><option value="55">55</option>
+                    </select>
+                    <select id="schedTimeInCloseAmPm">
+                        <option value="AM">AM</option><option value="PM">PM</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="schedule-row">
+            <div class="input-group">
+                <label for="schedTimeOutOpenHour">Time Out Opens</label>
+                <div class="time-row">
+                    <select id="schedTimeOutOpenHour">
+                        <option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option><option value="11">11</option><option value="12">12</option>
+                    </select>
+                    <select id="schedTimeOutOpenMin">
+                        <option value="00">00</option><option value="05">05</option><option value="10">10</option><option value="15">15</option><option value="20">20</option><option value="25">25</option><option value="30">30</option><option value="35">35</option><option value="40">40</option><option value="45">45</option><option value="50">50</option><option value="55">55</option>
+                    </select>
+                    <select id="schedTimeOutOpenAmPm">
+                        <option value="AM">AM</option><option value="PM">PM</option>
+                    </select>
+                </div>
+            </div>
+            <div class="input-group">
+                <label for="schedTimeOutCloseHour">Time Out Closes</label>
+                <div class="time-row">
+                    <select id="schedTimeOutCloseHour">
+                        <option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option><option value="11">11</option><option value="12">12</option>
+                    </select>
+                    <select id="schedTimeOutCloseMin">
+                        <option value="00">00</option><option value="05">05</option><option value="10">10</option><option value="15">15</option><option value="20">20</option><option value="25">25</option><option value="30">30</option><option value="35">35</option><option value="40">40</option><option value="45">45</option><option value="50">50</option><option value="55">55</option>
+                    </select>
+                    <select id="schedTimeOutCloseAmPm">
+                        <option value="AM">AM</option><option value="PM">PM</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <button class="btn-save-schedule" onclick="saveScheduleSettings()">Save Schedule</button>
+        <button class="btn-save-schedule btn-clear-event" onclick="clearScheduleSettings()">✕ Clear Schedule</button>
+    </div>
+
+</div>
+
+<!-- JavaScript para sa Hamburger Menu Toggle at Logout -->
+<script>
+function toggleSidebar() {
+    const sidebar = document.getElementById('adminSidebar');
+    const overlay = document.getElementById('sidebarOverlay');
+    sidebar.classList.toggle('active');
+    overlay.classList.toggle('active');
+}
+
+function logoutAdmin() {
+    if (!confirm("Are you sure you want to log out?")) return;
+    
+    // Clear admin session info or tokens
+    localStorage.removeItem('adminName');
+    localStorage.removeItem('adminRole');
+    localStorage.removeItem('adminStatus');
+    
+    // Redirect to your login page
+    window.location.href = 'index.html';
+}
+</script>
+
+<script src="js/admin.js"></script>
+</body>
+</html>

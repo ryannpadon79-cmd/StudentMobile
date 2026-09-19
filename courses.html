@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Courses Directory</title>
+    <link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+    <div class="phone-card">
+        <div class="admin-header">
+            <h3>Students by Course</h3>
+            <a href="admin.html" class="back-link">← Back</a>
+        </div>
+
+<!-- Course Filter Buttons -->
+        <div class="course-tabs">
+            <button class="tab-btn active" data-course="ALL">ALL</button>
+            <button class="tab-btn" data-course="BSIT">BSIT</button>
+            <button class="tab-btn" data-course="BSCS">BSCS</button>
+            <button class="tab-btn" data-course="BSIS">BSIS</button>
+            <button class="tab-btn" data-course="BSCpE">BSCpE</button>
+        </div>
+
+        <div class="search-box">
+            <input type="text" id="courseSearch" placeholder="🔍 Search student by name or ID..." oninput="filterCourseSearch()">
+        </div>
+
+<div class="student-list" id="courseList">
+            <p class="empty-msg">Loading students...</p>
+        </div>
+    </div>
+
+    <!-- Per-Student Attendance Report Modal -->
+    <div id="studentReportModal" class="modal-overlay" style="display:none;">
+        <div class="modal-content">
+            <h3 id="reportModalTitle" style="color: #0b4a83; margin-bottom: 12px; text-align:center;">Student Attendance Report</h3>
+            <span class="close-btn" onclick="closeStudentReport()">&times;</span>
+
+            <div id="studentReportBody" style="font-size: 13px; color: #334155;">
+                Loading schedule...
+            </div>
+        </div>
+    </div>
+
+    <!-- Attendance Camera Modal (legacy include) -->
+    <div id="attendanceModal" style="display:none;"></div>
+
+    <script src="js/admin.js"></script>
+</body>
+</html>

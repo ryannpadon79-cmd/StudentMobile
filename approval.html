@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pending Approvals</title>
+    <link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+    <div class="phone-card">
+<div class="admin-header">
+            <h3>Approve Registrations</h3>
+            <a href="admin.html" class="back-link">← Back</a>
+        </div>
+
+<div class="search-box">
+            <input type="text" id="approvalSearch" placeholder="🔍 Search student by name or ID..." oninput="filterApprovals()">
+        </div>
+
+        <!-- Batch Approval Controls -->
+        <div class="batch-actions">
+            <label class="select-all-label">
+                <input type="checkbox" id="selectAllCheck" onclick="toggleSelectAll()"> Select All
+            </label>
+            <div class="batch-btns">
+                <button class="btn-sm btn-approve" onclick="approveSelected()">Approve Selected</button>
+                <button class="btn-sm btn-approve-all" onclick="approveAllPending()">Approve All</button>
+            </div>
+        </div>
+
+        <div class="student-list" id="approvalList">
+            <p class="empty-msg">Loading pending registrations...</p>
+        </div>
+    </div>
+
+    <script src="js/admin.js"></script>
+</body>
+</html>

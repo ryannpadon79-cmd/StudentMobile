@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Attendance Dashboard</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .admin-only { display: none; }
+        .student-only { display: block; }
+        
+        .badge-role { background: #0B3C5D; color: #fff; padding: 4px 10px; border-radius: 6px; font-size: 11px; font-weight: 700; text-transform: uppercase; }
+        .filter-btn-group { display: flex; gap: 6px; margin-bottom: 12px; overflow-x: auto; padding-bottom: 5px; }
+        .btn-filter { padding: 6px 12px; border: none; background: #E2E8F0; color: #0B3C5D; border-radius: 8px; cursor: pointer; font-weight: 700; font-size: 12px; }
+        .btn-filter.active { background: #0b4a83; color: #fff; }
+        .action-btn { padding: 4px 8px; border: none; border-radius: 6px; cursor: pointer; font-size: 11px; font-weight: bold; }
+        .btn-approve { background: #28a745; color: white; }
+        .btn-decline { background: #dc3545; color: white; }
+        .btn-disable { background: #ff9f43; color: white; }
+
+        /* UNIFIED BURGER MENU & SIDEBAR STYLING CONFINED TO PHONE */
+        .admin-header-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 5px 0 10px 0;
+            border-bottom: 1px solid var(--border, #e2e8f0);
+            margin-bottom: 15px;
+            width: 100%;
+        }
+        .burger-btn {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #0b4a83;
+            padding: 5px 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .burger-drawer {
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 75%;
+            height: 100%;
+            background: #ffffff;
+            box-shadow: 5px 0 25px rgba(0, 0, 0, 0.15);
+            transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 1200;
+            display: flex;
+            flex-direction: column;
+        }
+        .burger-drawer.open {
+            left: 0;
+        }
+        .burger-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            background: #0b4a83;
+            color: white;
+        }
+        .burger-header h3 {
+            font-size: 16px;
+            font-weight: 800;
+            margin: 0;
+        }
+        .close-burger {
+            background: none;
+            border: none;
+            font-size: 28px;
+            color: white;
+            cursor: pointer;
+        }
+        .burger-links {
+            display: flex;
+            flex-direction: column;
+            padding: 15px 0;
+            gap: 8px;
+        }
+        .burger-links a {
+            padding: 12px 20px;
+            text-decoration: none;
+            color: #1e293b;
+            font-size: 14px;
+            font-weight: 600;
+            border-bottom: 1px solid #f1f5f9;
+            transition: background 0.2s, color 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .burger-links a:hover {
+            background: #e8f0fe;
+            color: #0b4a83;
+        }
+        .burger-links .burger-logout {
+            color: #dc2626;
+            margin-top: 15px;
+            background: #fee2e2;
+            border-bottom: none;
+            border-radius: 12px;
+            margin-left: 15px;
+            margin-right: 15px;
+            justify-content: center;
+        }
+        .burger-links .burger-logout:hover {
+            background: #fecaca;
+            color: #b91c1c;
+        }
+        .burger-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(2px);
+            display: none;
+            z-index: 1100;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .burger-overlay.open {
+            display: block;
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="mobile-dashboard" style="position: relative; overflow: hidden;">
+        
+        <div id="burgerDrawer" class="burger-drawer student-only">
+            <div class="burger-header">
+                <h3>Student Navigation</h3>
+                <button class="close-burger" onclick="toggleBurgerMenu()">&times;</button>
+            </div>
+            <div class="burger-links">
+                <a href="student.html" style="background: #e8f0fe; color: #0b4a83;">
+                    📊 Dashboard
+              
+                </a>
+                <a href="#" onclick="studentLogout()" class="burger-logout">
+                    🚪 Log Out
+                </a>
+            </div>
+        </div>
+        
+        <div id="burgerOverlay" class="burger-overlay" onclick="toggleBurgerMenu()"></div>
+
+        <div class="admin-header-bar student-only">
+            <button class="burger-btn" onclick="toggleBurgerMenu()" title="Open Menu">☰</button>
+            <h2 style="font-size: 14px; color: #0b4a83; font-weight: 700; margin: 0;">Student Portal</h2>
+            <div style="width: 24px;"></div>
+        </div>
+
+        <div class="card header-card" style="padding: 15px;">
+            <div class="header-brand">
+                <img src="images/logo.png" alt="School Logo" class="school-logo" style="width: 56px; height: 56px;" onerror="this.src='https://via.placeholder.com/56/003D7A/FFFFFF?text=NDMC'">
+                <div class="header-brand-text">
+                    <h2 style="color: #0b4a83; font-size: 16px; font-weight: 800; margin: 0; line-height: 1.2;">Notre Dame of Midsayap College</h2>
+                    <p style="color: #718096; font-size: 11px; margin-top: 2px;">Attendance Monitoring Dashboard</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="card profile-card">
+            <div style="display: flex; justify-content: center; align-items: center; margin-bottom: 8px;">
+                <img id="studentPhoto" src="https://via.placeholder.com/90/003D7A/FFFFFF?text=ADMIN" alt="Profile" class="profile-img">
+            </div>
+            <h3 id="studentName" style="color: #2d3748; font-size: 18px;">Student Name</h3>
+            <p class="sub-text" id="studentDetails" style="color: #718096; font-size: 14px;">BSIT - 3rd Year</p>
+            <div style="margin-top: 8px;"><span id="roleBadge" class="badge-role">STUDENT</span></div>
+        </div>
+
+        <div class="card time-card">
+            <h4 style="color: #718096; font-size: 13px;">CURRENT DATE & TIME</h4>
+            <div class="clock-display" id="clock">00:00:00 AM</div>
+            <div class="date-display" id="date" style="color: #4a5568; font-size: 14px; font-weight: 600;">Loading Date...</div>
+        </div>
+
+        <div class="card notification-card" id="studentNotification" role="status" aria-live="polite" hidden>
+            <div class="notification-heading">
+                <strong id="notificationTitle">New notification</strong>
+                <button type="button" onclick="dismissStudentNotification()" aria-label="Dismiss notification">&times;</button>
+            </div>
+            <p id="notificationMessage"></p>
+        </div>
+
+        <div class="card action-card student-only">
+            <h4 style="color: #2d3748; margin-bottom: 10px;">Attendance Recording</h4>
+            <button class="btn-time btn-in" onclick="openAttendanceModal('Time In')">Time In</button>
+            <button class="btn-time btn-out" onclick="openAttendanceModal('Time Out')">Time Out</button>
+        </div>
+
+        <div class="card status-card student-only">
+            <h4 style="color: #718096; font-size: 13px; margin-bottom: 5px;">TODAY'S STATUS</h4>
+            <div class="status-badge" id="todayStatus" style="font-weight: 800; font-size: 16px; color: #4a5568;">Not Checked In</div>
+        </div>                                                                                                                              
+
+        <div class="card schedule-card student-only" id="scheduleCard" style="display:block;">
+            <h4 style="color: #0b4a83; margin-bottom: 8px;">📢 Event & Attendance Schedule</h4>
+            <div class="schedule-info" id="scheduleInfo">
+                <div><b>Event:</b> <span id="schedEvent">Regular</span></div>
+                <div><b>Date:</b> <span id="schedDate">—</span></div>
+                <div><b>Event Time:</b> <span id="studentEventTime">Not set</span></div>
+                <div><b>Time In:</b> <span id="schedTimeIn">07:00 — 08:00</span></div>
+                <div><b>Time Out:</b> <span id="schedTimeOut">16:00 — 17:00</span></div>
+            </div>
+        </div>
+
+        <div class="card history-card">
+            <h3 id="historyTitle" style="color: #000; margin-bottom: 15px; text-align: left; font-weight: 800; font-size: 20px;">Attendance Records</h3>
+            <div class="table-wrapper">
+                <table class="custom-admin-table">
+                    <thead>
+                        <tr>
+                            <th>Student ID</th>
+                            <th>Name</th>
+                            <th>Course</th>
+                            <th>Event</th>
+                            <th>Date</th>
+                            <th>Time In</th>
+                            <th>Time Out</th>
+                            <th>Status</th>
+                            <th>Details</th>
+                        </tr>
+                    </thead>
+                    <tbody id="historyTableBody">
+                        <tr>
+                            <td colspan="9" class="empty-msg">No attendance record.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+       
+
+    </div>
+
+    <div id="attendanceModal" class="modal-overlay" style="display: none;">
+        <div class="modal-content">
+            <h3 id="modalTitle" style="color: #0b4a83; margin-bottom: 15px;">Time In Verification</h3>
+            <span class="close-btn" onclick="closeAttendanceModal()">&times;</span>
+
+            <div class="input-group" style="margin-bottom: 10px;">
+                <label>Student ID:</label>
+                <input type="text" id="modalId" readonly>
+            </div>
+            <div class="input-group" style="margin-bottom: 10px;">
+                <label>Name:</label>
+                <input type="text" id="modalName" readonly>
+            </div>
+            <div class="input-group" style="margin-bottom: 10px;">
+                <label>Course & Year:</label>
+                <input type="text" id="modalCourse" readonly>
+            </div>
+
+            <div class="input-group" style="margin-bottom: 10px;">
+                <label>Event / Purpose <span style="color:red">*</span></label>
+                <input type="text" id="modalEvent" placeholder="e.g. Morning Class, Event" oninput="checkEventInput()">
+            </div>
+
+            <div class="camera-container">
+                <p id="camLockMsg" style="color: #718096; font-size: 12px; margin-bottom: 5px;">Fill in the Event first to unlock camera.</p>
+                <video id="webcam" autoplay playsinline style="display: none; width: 100%; border-radius: 10px;"></video>
+                <canvas id="canvas" style="display: none; width: 100%; border-radius: 10px;"></canvas>
+            </div>
+
+            <div style="margin-top: 15px; display: flex; gap: 8px;">
+                <button id="btnCapture" class="btn-login" onclick="takeSelfie()" disabled>Capture Selfie</button>
+                <button id="btnRetake" class="btn-login" onclick="retakeSelfie()" style="display: none; background-color: #6c757d;">Retake</button>
+                <button id="btnSubmit" class="btn-login" onclick="submitAttendance()" style="display: none; background-color: #28a745;">Submit</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/student.js"></script>
+    <script>
+        // Hamburger Menu & Student Logic Functions
+        function toggleBurgerMenu() {
+            const drawer = document.getElementById('burgerDrawer');
+            const overlay = document.getElementById('burgerOverlay');
+            if (drawer && overlay) {
+                drawer.classList.toggle('open');
+                overlay.classList.toggle('open');
+            }
+        }
+
+        function studentLogout() {
+            if (confirm("Are you sure you want to log out?")) {
+                localStorage.removeItem('currentStudentId');
+                localStorage.removeItem('currentStudentName');
+                localStorage.removeItem('role');
+                window.location.href = 'index.html';
+            }
+        }
+
+        function openStudentAttendanceModal() {
+            toggleBurgerMenu();
+            
+            // Kunin ang ID mula sa alinman sa dalawang posibleng key sa localStorage
+            const studentId = localStorage.getItem('currentStudentId') || localStorage.getItem('studentId');
+            const logs = JSON.parse(localStorage.getItem('allAttendanceLogs')) || [];
+            const myLogs = logs.filter(l => l.studentId === studentId);
+            
+            let summaryText = `Iyong Attendance Summary:\nMayroon kang kabuuang ${myLogs.length} na record.\n\n`;
+            if (myLogs.length === 0) {
+                summaryText += "Wala pang nakatalang attendance records.";
+            } else {
+                myLogs.forEach(l => {
+                    summaryText += `• ${l.date} (${l.event || 'Regular'}): ${l.type} - [${l.status || 'Present'}]\n`;
+                });
+            }
+            alert(summaryText);
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            const schedTimeIn = document.getElementById('schedTimeIn').innerText;
+            const schedEvent = document.getElementById('schedEvent').innerText;
+            
+            if (!schedTimeIn || schedTimeIn.includes("—") && document.getElementById('schedDate').innerText === "—" && schedEvent === "Regular") {
+                const cleared = localStorage.getItem('scheduleCleared');
+                if (cleared === 'true') {
+                    document.getElementById('scheduleCard').style.display = 'none';
+                }
+            }
+        });
+    </script>
+</body>
+</html> 

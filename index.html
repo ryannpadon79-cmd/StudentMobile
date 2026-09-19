@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mobile Attendance Monitoring System</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <div class="mobile-dashboard">
+        <div class="login-card">
+            <div class="logo-wrapper">
+                <img src="images/logo.png" alt="School Logo" class="school-logo" onerror="this.src='https://via.placeholder.com/90/003D7A/FFFFFF?text=NDMC'">
+            </div>
+
+            <h1 class="main-title">ATTENDSYNC</h1>
+
+            <!-- Login Role Tabs -->
+            <div class="login-tabs">
+                <button class="login-tab active" id="studentTab" onclick="switchLoginTab('student')">Student</button>
+                <button class="login-tab" id="adminTab" onclick="switchLoginTab('admin')">Admin</button>
+            </div>
+
+            <!-- STUDENT LOGIN FORM -->
+            <div id="studentLoginForm">
+                <p class="sub-title">Student Login</p>
+                <form onsubmit="handleLogin(event)" autocomplete="off">
+                    <div class="input-group">
+                        <label for="studentId">Student ID</label>
+                        <input type="text" id="studentId" placeholder="Enter ID (e.g. 20244440)" required pattern="[0-9]+" title="Numbers only allowed" autocomplete="off">
+                    </div>
+
+                    <div class="input-group">
+                        <label for="password">Password</label>
+                        <input type="password" id="password" placeholder="Enter Password" required autocomplete="current-password">
+                    </div>
+
+                    <button type="submit" class="btn-login">Student Login</button>
+                </form>
+
+                <div class="links-container" style="text-align: center; margin-top: 15px;">
+                    <a href="register.html" class="link-register" style="color: #0b4a83; text-decoration: none; font-weight: 600;">Register Account</a>
+                </div>
+            </div>
+
+            <!-- ADMIN LOGIN FORM -->
+            <div id="adminLoginForm" style="display: none;">
+                <p class="sub-title">Admin Portal Login</p>
+                <form onsubmit="handleAdminLogin(event)" autocomplete="off">
+                    <div class="input-group">
+                        <label for="adminId">Admin ID</label>
+                        <input type="text" id="adminId" placeholder="Enter Admin ID" required autocomplete="off">
+                    </div>
+
+                    <div class="input-group">
+                        <label for="adminPass">Admin Password</label>
+                        <input type="password" id="adminPass" placeholder="Enter Admin Password" required autocomplete="current-password">
+                    </div>
+
+                    <button type="submit" class="btn-login">Admin Login</button>
+                </form>
+                <div class="links-container" style="text-align: center; margin-top: 15px;">
+                    <a href="admin-register.html" class="link-register" style="color: #0b4a83; text-decoration: none; font-weight: 600;">Register Admin Account</a>
+                </div>
+            </div>
+
+            <div id="adminPreview"></div>
+        </div>
+    </div>
+
+    <script src="js/index.js"></script>
+</body>
+</html>

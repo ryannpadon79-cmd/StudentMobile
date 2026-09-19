@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Capture Attendance</title>
+    <link rel="stylesheet" href="css/student.css">
+</head>
+<body>
+<div class="phone-card">
+        <h3 id="pageTitle" style="text-align:center; color:#1E3A8A;">Time In - Attendance Capture</h3>
+
+        <!-- Time In / Time Out selector -->
+        <div style="display:flex; gap:8px; margin-bottom:12px;">
+            <button id="typeInBtn" class="btn btn-success active" style="flex:1;" onclick="setAttendanceType('Time In')">Time In</button>
+            <button id="typeOutBtn" class="btn btn-danger" style="flex:1;" onclick="setAttendanceType('Time Out')">Time Out</button>
+        </div>
+        
+
+        <!-- Auto filled inputs -->
+        <div class="input-group">
+            <label>Student Details</label>
+            <input type="text" id="studentInfo" value="" readonly>
+        </div>
+
+        <!-- Event Name Field (Triggers Camera) -->
+        <div class="input-group">
+            <label>Event Name *</label>
+            <input type="text" id="eventName" placeholder="Type event name..." oninput="checkCameraLock()">
+        </div>
+
+        <!-- Camera Container -->
+        <div class="cam-box">
+            <p id="lockText">🔒 Fill in Event Name first to enable Camera</p>
+            <video id="webcam" autoplay playsinline style="display:none;"></video>
+            <canvas id="canvas" style="display:none;"></canvas>
+        </div>
+
+        <!-- Camera Controls -->
+        <button id="snapBtn" class="btn btn-success" disabled onclick="takePhoto()">Capture Selfie</button>
+        <button id="retakeBtn" class="btn btn-warning" style="display:none;" onclick="retakePhoto()">Retake</button>
+        <button id="submitBtn" class="btn btn-primary" style="display:none;" onclick="submitData()">Submit Attendance</button>
+        <a href="student.html" class="btn btn-danger" style="text-align:center; text-decoration:none; display:block; margin-top:5px;">Cancel</a>
+    </div>
+
+    <script src="js/attendance.js"></script>
+</body>
+</html>
